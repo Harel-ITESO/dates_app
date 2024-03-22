@@ -15,9 +15,9 @@ app.engine("handlebars", engine());
 app.set("view engine", "handlebars");
 app.set("views", path.join(__dirname, "views"));
 
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors);
 
 // path for jquery on the client and static files
 app.use(
