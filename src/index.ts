@@ -7,19 +7,22 @@ import indexRoutes from "./routes/index.routes";
 import path from "path";
 import { engine } from "express-handlebars";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
 // app setup
 const app = express();
-app.use(express.json());
 app.engine("handlebars", engine());
 app.set("view engine", "handlebars");
 app.set("views", path.join(__dirname, "views"));
+
+app.use(express.json());
 app.use(cookieParser());
+app.use(cors);
 
 // path for jquery on the client and static files
 app.use(
-    "/lib/jquery",
-    express.static(path.join(__dirname, "../node_modules/jquery/dist"))
+  "/lib/jquery",
+  express.static(path.join(__dirname, "../node_modules/jquery/dist")),
 );
 app.use("/public", express.static(path.join(__dirname, "../public")));
 
