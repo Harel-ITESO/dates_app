@@ -5,17 +5,18 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "mongodb"
-    url      = env("DATABASE_URL")
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
 }
 
 model User {
-    userId String @id @map("_id") @default(auto()) @db.ObjectId
-    username String
-    email String @unique
-    password String
+  userId     String  @id @default(auto()) @map("_id") @db.ObjectId
+  username   String
+  email      String  @unique
+  password   String
+  profilePic String?
 }
