@@ -1,3 +1,6 @@
+/* Pool of various models to grab from using the same Prisma client instance */
+
 import { PrismaClient } from "@prisma/client";
-const userModel = new PrismaClient().user;
-export { userModel };
+const model = new PrismaClient();
+
+export const userModel = model.user;
