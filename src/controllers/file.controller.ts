@@ -6,7 +6,6 @@ import { StatusCodes } from "../utils/status-codes";
 class FileController {
   public async uploadProfilePic(req: UserRequest, res: Response) {
     const { fileLocation } = req.headers;
-    console.log(fileLocation);
     req.user!.profilePic = fileLocation as string;
     const { userId, ...data } = req.user!;
     try {
