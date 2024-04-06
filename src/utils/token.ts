@@ -5,17 +5,19 @@ import jwt from "jsonwebtoken";
 const secretKey = process.env["SECRET_KEY"] || "";
 
 let expiration = "";
+let hasExpiration = false;
 
-if (process.env.NODE_ENV === "Development") {
+if (process.env.NODE_ENV === "Production") {
+  hasExpiration = true;
   expiration = "10m";
 }
 
-if (process.env.NODE_ENV === "Production") {
-  expiration = "3m";
-}
-
 export function generateToken(email: string, userId: string) {
-  return jwt.sign({ email, userId }, secretKey, { expiresIn: expiration });
+  return jwt.sign(
+    { email, userId },
+    secretKey,
+    hasExpiration ? { expiresIn: expiration } : {},
+  );
 }
 
 export function decodeToken(token: string) {
