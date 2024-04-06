@@ -29,9 +29,14 @@ yarn
 El proyecto utiliza un par de variables de entorno para su funcionamiento seguro,asegurate de tener un archivo `.env` con los siguientes nombres
 
 ```bash
-DATABASE_URL="your_db_connection"
-PORT=0000
-SECRET_KEY="your_secret_key";
+DATABASE_URL="your-mongo-connection"
+SECRET_KEY="your-secret-key"
+PORT=8473
+S3_ACCESS_KEY=your-access-key-to-s3
+S3_SECRET_KEY=your-secret-key-to-s3
+S3_REGION=your-s3-region
+S3_BUCKET_NAME=your-s3-bucket-name
+NODE_ENV=Production | Development
 ```
 
 Es importante que definas tus valores y respetes los nombres.
@@ -42,6 +47,12 @@ Este proyecto utiliza _Prisma_ como un ORM para la base de datos de tipo _Mongo_
 
 ```bash
 npx prisma db push
+```
+
+También puedes utilizar el siguiente script luego de haber instalado las dependencias
+
+```bash
+yarn postinstall
 ```
 
 Esto empujará los cambios a la base de datos y asegurará que se creé la colección indicada en el archivo `~/prisma/schema.prisma`.

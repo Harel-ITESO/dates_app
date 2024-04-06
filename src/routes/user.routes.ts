@@ -7,4 +7,6 @@ const userRoutes = Router();
 // 'GET /users'
 userRoutes.get("/", userController.getUsers);
 
+// file routes
+
 export default userRoutes;

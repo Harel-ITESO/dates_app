@@ -6,6 +6,7 @@ import loginRoutes from "./login.routes";
 import registerRoutes from "./register.routes";
 import authMiddleware from "../middlewares/auth.middleware";
 import homeRoutes from "./home.routes";
+import fileRoutes from "./file.routes";
 
 const indexRoutes = Router();
 
@@ -22,5 +23,8 @@ indexRoutes.use("/login", loginRoutes);
 
 // '/register'
 indexRoutes.use("/register", registerRoutes);
+
+// '/files'
+indexRoutes.use("/files", authMiddleware, fileRoutes);
 
 export default indexRoutes;

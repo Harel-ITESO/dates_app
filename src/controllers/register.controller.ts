@@ -2,7 +2,7 @@
 
 import { Request, Response } from "express";
 import { StatusCodes } from "../utils/status-codes";
-import userModel from "../models/user.model";
+import { userModel } from "../models/model-pool";
 import { hashPassword } from "../utils/crypt";
 
 class RegisterController {
