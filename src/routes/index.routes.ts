@@ -11,6 +11,24 @@ import fileRoutes from "./file.routes";
 const indexRoutes = Router();
 
 // 'redirect to home'
+
+/**
+ * @swagger
+ * /:
+ *  get:
+ *      summary: Redirect to Home
+ *      tags: [Home]
+ *      description: Redirects requests from the root URL to the home page.
+ *      responses:
+ *          '302':
+ *              description: Found. Redirecting to /home.
+ *              headers:
+ *                  Location:
+ *                      schema:
+ *                          type: string
+ *                          example: '/home'
+ *                      description: The URL to which the request is redirected.
+ */
 indexRoutes.get("/", (_, res) => res.redirect("/home"));
 
 indexRoutes.use("/home", authMiddleware, homeRoutes);
