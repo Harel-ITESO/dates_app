@@ -1,0 +1,118 @@
+<!-- Section 1 - Welcome -->
+<div
+  id="section-1"
+  class="d-flex flex-column mt-3 mb-5 justify-content-between"
+>
+  <div class="text-center">
+    <h2>¡Hola <em>{{userData.username}}!</em></h2>
+    <span>Bienvenido a <strong>Dates App</strong></span>
+  </div>
+  <div class="text-center">
+    <span class="fa-regular fa-face-smile fs-1"></span>
+    <p>Como nuevo integrante
+      <strong>queremos que te sientas cómodo con tu perfil</strong></p>
+    <p>¡Así que este espacio es solo para tí!</p>
+  </div>
+  <button
+    class="btn btn-success w-25 align-self-center next-button"
+  >Siguiente</button>
+</div>
+
+<!-- Section 2 - Interests -->
+<div
+  id="section-2"
+  class="d-flex flex-column mt-3 mb-5 justify-content-between align-items-center d-none"
+>
+  <div class="text-center">
+    <h2>1/3 Intereses</h2>
+    <span>Selecciona máximo <strong>5</strong> cosas que te interesen</span>
+  </div>
+  <div
+    class="rounded border border-black d-flex align-items-center justify-content-center w-50 p-3 flex-wrap"
+    style="gap: 2rem;"
+  >
+    {{#each interests}}
+      <button
+        id={{interestId}}
+        class="p-2 rounded-pill btn btn-outline-success interest-button"
+      >{{interestDescription}}</button>
+    {{/each}}
+  </div>
+  <button
+    class="btn btn-success w-25 align-self-center next-button"
+  >Siguiente</button>
+</div>
+
+<!-- Section 3 - Profile Pic -->
+<div
+  id="section-3"
+  class="d-flex flex-column mt-3 mb-5 justify-content-between align-items-center d-none"
+>
+  <div class="text-center">
+    <h2>2/3 Foto de Perfil</h2>
+    <span>Agrega una foto de perfil</span>
+  </div>
+  <div class="d-flex flex-column align-items-center justify-content-between">
+    <img
+      id="profilePicBuffer"
+      name="profile_pic"
+      src="/public/img/profile-pic-placeholder.jpg"
+      alt="placeholder profile pic"
+      width="120"
+      height="120"
+      class="rounded-circle mb-4"
+    />
+    <div>
+      <form id="profilePicForm">
+        <label for="profilePicSelector" class="form-label">Selecciona una foto
+          para que la gente pueda verte 😍</label>
+        <input
+          class="form-control form-control-lg"
+          id="profilePicSelector"
+          type="file"
+        />
+      </form>
+    </div>
+  </div>
+  <div class="d-flex" style="gap: 1rem;">
+    <button
+      class="btn btn-secondary w-100 align-self-center before-button"
+    >Anterior</button>
+    <button
+      class="btn btn-success w-100 align-self-center next-button"
+    >Siguiente</button>
+  </div>
+</div>
+
+<!-- Section 4 - Suscription Invitation -->
+<div
+  id="section-4"
+  class="d-flex flex-column mt-3 mb-5 justify-content-between align-items-center d-none"
+>
+  <div class="text-center">
+    <h2>3/3 Suscripción</h2>
+    <span>Te invitamos a unirte a nuestra suscripción
+      <strong><em>Premium</em></strong></span>
+  </div>
+  <div class="d-flex flex-column align-items-center justify-content-between">
+    <div>
+      <strong>Entre los beneficios de unirte a premium están:</strong>
+      <ul>
+        <li>Poder ver a quién le ha interesado tu perfil</li>
+        <li>Aparecerás primero en las listas de las demás personas</li>
+        <li>Y mucho más...</li>
+      </ul>
+    </div>
+
+    <button class="btn btn-info">Únete a Premium ahora</button>
+  </div>
+  <div class="d-flex" style="gap: 1rem;">
+    <button
+      class="btn btn-secondary w-100 align-self-center before-button"
+    >Anterior</button>
+    <button
+      class="btn btn-success w-100 align-self-center"
+      id="endButton"
+    >Finalizar</button>
+  </div>
+</div>

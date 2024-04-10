@@ -1,7 +1,7 @@
 import multer from "multer";
 import multerS3 from "multer-s3";
 import { S3Client } from "@aws-sdk/client-s3";
-import { UserRequest } from "../types/express";
+import { UserRequest } from "../types/global";
 
 const region = process.env["S3_REGION"] || "";
 const secretAccessKey = process.env["S3_SECRET_KEY"] || "";

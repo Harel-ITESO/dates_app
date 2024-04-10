@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { UserRequest } from "../types/express";
+import { UserRequest } from "../types/global";
 import { userModel } from "../models/model-pool";
 import { StatusCodes } from "../utils/status-codes";
 

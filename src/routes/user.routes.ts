@@ -41,6 +41,12 @@ const userRoutes = Router();
  */
 userRoutes.get("/", userController.getUsers);
 
-// file routes
+// 'GET /users/:id'
+userRoutes.get("/:id", userController.getUserById);
 
+// 'PUT /users/current'
+userRoutes.put("/current", userController.updateCurrentUserData);
+
+// 'POST /users/current/interests'
+userRoutes.post("/current/interests", userController.attachCurrentUserInterest);
 export default userRoutes;

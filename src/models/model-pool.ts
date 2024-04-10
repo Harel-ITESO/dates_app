@@ -4,3 +4,4 @@ import { PrismaClient } from "@prisma/client";
 const model = new PrismaClient();
 
 export const userModel = model.user;
+export const interestModel = model.interest;

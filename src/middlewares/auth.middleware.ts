@@ -1,5 +1,5 @@
 import { Response, NextFunction } from "express";
-import { UserRequest } from "../types/express";
+import { UserRequest } from "../types/global";
 import { StatusCodes } from "../utils/status-codes";
 import { decodeToken } from "../utils/token";
 import { userModel } from "../models/model-pool";

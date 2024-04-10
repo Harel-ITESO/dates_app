@@ -7,6 +7,7 @@ import registerRoutes from "./register.routes";
 import authMiddleware from "../middlewares/auth.middleware";
 import homeRoutes from "./home.routes";
 import fileRoutes from "./file.routes";
+import onboardingRoutes from "./onboarding.routes";
 
 const indexRoutes = Router();
 
@@ -44,5 +45,18 @@ indexRoutes.use("/register", registerRoutes);
 
 // '/files'
 indexRoutes.use("/files", authMiddleware, fileRoutes);
+
+// '/onboarding'
+indexRoutes.use("/onboarding", authMiddleware, onboardingRoutes);
+
+// indexRoutes.post("/interests", async (req, res) => {
+//   const { interests } = req.body;
+//   interests.forEach(async (e: { interestDescription: string }) => {
+//     await interestModel.create({
+//       data: { interestDescription: e.interestDescription },
+//     });
+//   });
+//   res.send("created");
+// });
 
 export default indexRoutes;
