@@ -3,15 +3,15 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import express from "express";
-import swaggerJsDoc from 'swagger-jsdoc';
-import swaggerUri from 'swagger-ui-express'
+import swaggerJsDoc from "swagger-jsdoc";
+import swaggerUri from "swagger-ui-express";
 import indexRoutes from "./routes/index.routes";
 import path from "path";
 import { engine } from "express-handlebars";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
-import { swaggerConfig } from './swagger.config';
+import { swaggerConfig } from "./swagger.config";
 
 // app setup
 const app = express();
@@ -35,7 +35,7 @@ app.use(indexRoutes);
 
 // Swagger
 const swaggerDocs = swaggerJsDoc(swaggerConfig); // Genera los documentos
-app.use('/api-docs', swaggerUri.serve, swaggerUri.setup(swaggerDocs));
+app.use("/api-docs", swaggerUri.serve, swaggerUri.setup(swaggerDocs));
 
 // app listening
 const port = process.env["PORT"] || 3000;

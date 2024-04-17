@@ -10,9 +10,9 @@ const loginRoutes = Router();
  * @swagger
  * /login:
  *   get:
- *     summary: Get Login page 
+ *     summary: Get Login page
  *     tags: [Login]
- *     description: This endpoint renders the login page. 
+ *     description: This endpoint renders the login page.
  *     responses:
  *       '200':
  *         description: Página de inicio de sesión renderizada correctamente
@@ -60,4 +60,5 @@ loginRoutes.get("/", loginController.getLoginPage);
  *         description: Usuario no encontrado o contraseña incorrecta.
  */
 loginRoutes.post("/", loginController.loginUser);
+
 export default loginRoutes;
