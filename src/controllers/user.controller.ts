@@ -48,7 +48,7 @@ class UserController {
           if (interests[i].interestId === interests[j].interestId && i !== j)
             return res
               .status(StatusCodes.BAD_REQUEST)
-              .send("Can't have repeatedx id elements");
+              .send("Can't have repeated id elements");
         }
       }
       const interestsIds = interests.map((i) => i.interestId);

@@ -1,7 +1,8 @@
 import { interestModel } from "../models/model-pool";
-import { UserRequest } from "../types/global";
+import { InterestRelation, UserRequest } from "../types/global";
 import { Response } from "express";
 import { StatusCodes } from "../utils/status-codes";
+import { Interest } from "@prisma/client";
 
 class HomeController {
   public getHomePage(req: UserRequest, res: Response) {
@@ -14,18 +15,24 @@ class HomeController {
   public async getProfilePage(req: UserRequest, res: Response) {
     const { password, ...rest } = req.user!;
     const { interestsIds } = rest;
-    const interests = [] as string[];
+    const userInterests = [] as Interest[];
+    const dbInterests = await interestModel.findMany({});
+    const allInterests = [...dbInterests] as InterestRelation[];
+
     for (let i = 0; i < interestsIds.length; i++) {
-      const interest = await interestModel.findFirst({
-        where: { interestId: interestsIds[i] },
-      });
-      interests.push(interest!.interestDescription);
+      const interestFoundIndex = dbInterests.findIndex(
+        (e) => e.interestId === interestsIds[i],
+      );
+      if (interestFoundIndex !== -1) {
+        const interest = dbInterests[interestFoundIndex];
+        allInterests[interestFoundIndex].selected = true;
+        userInterests.push(interest);
+      }
     }
-    return res.render("home_profile", {
-      subtitle: "Profile",
+    res.render("home_profile", {
       user: rest,
-      interests,
-      scripts: ["/public/js/profile.js"],
+      userInterests,
+      allInterests,
     });
   }
 
