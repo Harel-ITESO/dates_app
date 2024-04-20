@@ -9,6 +9,7 @@ import indexRoutes from "./routes/index.routes";
 import path from "path";
 import { engine } from "express-handlebars";
 import cookieParser from "cookie-parser";
+import { googleAuth } from './middlewares/google-auth';
 import cors from "cors";
 
 import { swaggerConfig } from './swagger.config';
@@ -32,6 +33,9 @@ app.use("/public", express.static(path.join(__dirname, "../public")));
 
 // routing
 app.use(indexRoutes);
+
+// google auth
+googleAuth(app);
 
 // Swagger
 const swaggerDocs = swaggerJsDoc(swaggerConfig); // Genera los documentos
