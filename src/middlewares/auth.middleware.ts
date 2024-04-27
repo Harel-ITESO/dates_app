@@ -18,6 +18,9 @@ export default async function authMiddleware(
     const decodedUserData = decodeToken(token);
     const { email, username } = decodedUserData;
     const userData = await userModel.findFirst({
+      include: {
+        userInterests: true,
+      },
       where: { email, username },
     });
     if (!userData) {

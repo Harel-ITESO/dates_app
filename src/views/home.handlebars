@@ -1,1 +1,19 @@
-<h1>Home</h1>
+<div>
+  {{#if otherUsers}}
+  {{#each otherUsers}}
+  <div class="card" style="width: 18rem;" id="user-{{this.userId}}">
+    <img src={{this.profilePic}} class="card-img-top" alt="other user profile pic" />
+    <div class="card-body">
+      <h5 class="card-title">{{this.username}}</h5>
+      <p class="card-text">{{this.description}}</p>
+      <div class="d-flex justify-content-between">
+        <button class="btn btn-danger dislike"><span class="fa-solid fa-xmark"></span></button>
+        <button class="btn btn-success rounded-circle like"><span class="fa-solid fa-check"></span></button>
+      </div>
+    </div>
+  </div>
+  {{/each}}
+  {{else}}
+  <h2>No hay personas nuevas por el momento para tí 🥲</h2>
+  {{/if}}
+</div>

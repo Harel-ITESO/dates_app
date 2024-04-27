@@ -1,5 +1,7 @@
 # dates_app
 
+#### Atención!!! Se migró de MongoDB a PostgreSQL, lee estos requerimientos
+
 ## Descripción del Proyecto
 
 Este es un proyecto de una app de citas, enfocado en el backend, donde se utilizan y se ponen a prueba los conocimientos adquiridos a lo largo del curso,
@@ -29,27 +31,27 @@ yarn
 El proyecto utiliza un par de variables de entorno para su funcionamiento seguro,asegurate de tener un archivo `.env` con los siguientes nombres
 
 ```bash
-DATABASE_URL="your-mongo-connection"
+DATABASE_URL="your-postgresql-connection"
 SECRET_KEY="your-secret-key"
 PORT=8473
-S3_ACCESS_KEY=your-access-key-to-s3
-S3_SECRET_KEY=your-secret-key-to-s3
-S3_REGION=your-s3-region
-S3_BUCKET_NAME=your-s3-bucket-name
-NODE_ENV=Production | Development
+S3_ACCESS_KEY="your-access-key-to-s3"
+S3_SECRET_KEY="your-secret-key-to-s3"
+S3_REGION="your-s3-region"
+S3_BUCKET_NAME="your-s3-bucket-name"
+NODE_ENV="Production | Development"
 ```
 
 Es importante que definas tus valores y respetes los nombres.
 
-### ORM con mongodb
+### ORM con PostgreSQL
 
-Este proyecto utiliza _Prisma_ como un ORM para la base de datos de tipo _Mongo_, es sumamente importante que coloques el cluster con la base de datos en el campo `DATABASE_URL` del archivo `.env`, una vez realizado esto, corre el siguiente comando:
+Este proyecto utiliza _Prisma_ como un ORM para la base de datos relacional usando _PostgreSQL_, es sumamente importante que coloques la conexión con la base de datos en el campo `DATABASE_URL` del archivo `.env`, una vez realizado esto, corre el siguiente comando:
 
 ```bash
-npx prisma db push
+npx prisma generate
 ```
 
-También puedes utilizar el siguiente script luego de haber instalado las dependencias
+Después utiliza el siguiente script luego de haber instalado las dependencias
 
 ```bash
 yarn postinstall

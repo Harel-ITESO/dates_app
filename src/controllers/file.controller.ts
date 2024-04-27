@@ -7,15 +7,22 @@ class FileController {
   public async uploadProfilePic(req: UserRequest, res: Response) {
     const { fileLocation } = req.headers;
     req.user!.profilePic = fileLocation as string;
-    const { userId, ...data } = req.user!;
+    const { userId } = req.user!;
     try {
-      const { userId } = await userModel.update({
-        where: { userId: req.user!.userId },
-        data,
+      const user = await userModel.update({
+        select: {
+          userId: true,
+        },
+        where: {
+          userId: userId,
+        },
+        data: {
+          profilePic: fileLocation as string,
+        },
       });
       res
         .status(StatusCodes.ACCEPTED)
-        .send("Profile pic uploaded successfully to user " + userId);
+        .send("Profile pic uploaded successfully to user " + user.userId);
     } catch (e: any) {
       console.error(e.message);
     }

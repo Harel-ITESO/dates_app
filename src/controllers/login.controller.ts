@@ -21,14 +21,15 @@ class LoginController {
         email: email as string,
       },
     });
-    if (!user || !comparePassword(password, user.password)) {
+    if (!user || !comparePassword(password, user.password!)) {
       res.status(StatusCodes.NOT_FOUND).send("User was not found");
       return;
     }
-    const token = generateToken(user.email, user.password);
+    const token = generateToken(user.email, user.password!);
     res
       .cookie("authorization", token, { httpOnly: true })
-      .sendStatus(StatusCodes.OK);
+      .status(StatusCodes.OK)
+      .json(token);
   }
 }
 

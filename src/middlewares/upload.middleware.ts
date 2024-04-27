@@ -21,7 +21,7 @@ function generateKey(
   _file: Express.Multer.File,
   cb: (error: any, key?: string) => void,
 ) {
-  const fileName = `${req.user!.userId}-profile_pic`;
+  const fileName = `user-${req.user!.userId}-profile_pic`;
   const imageUrl = `https://${bucketName}.s3.${region}.amazonaws.com/${fileName}`;
   req.headers["fileLocation"] = imageUrl;
   cb(null, fileName);

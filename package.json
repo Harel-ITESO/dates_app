@@ -6,7 +6,7 @@
     "build": "rimraf ./dist && tsc && cpx './src/views/**' './dist/views'",
     "start": "node .",
     "dev": "nodemon ./src/index.ts",
-    "postinstall": "yarn build && npx prisma db push"
+    "postinstall": "yarn build && npx prisma generate"
   },
   "keywords": [],
   "author": "Harel Olguín, Ana Rosaura Zamarrón, Claudia Castellejos",
