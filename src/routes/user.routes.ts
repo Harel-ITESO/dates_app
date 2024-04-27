@@ -48,5 +48,5 @@ userRoutes.get("/:id", userController.getUserById);
 userRoutes.put("/current", userController.updateCurrentUserData);
 
 // 'POST /users/current/interests'
-userRoutes.post("/current/interests", userController.attachCurrentUserInterest);
+userRoutes.post("/current/interests", userController.upsertUserInterests);
 export default userRoutes;

@@ -1,8 +1,12 @@
 import { Request } from "express";
-import { Interest, User } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 
 export interface UserRequest extends Request {
-  user?: User;
+  user?: Prisma.UserGetPayload<{
+    include: {
+      userInterests: true;
+    };
+  }>;
 }
 
 interface InterestRelation extends Interest {
