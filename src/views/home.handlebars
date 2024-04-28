@@ -1,7 +1,6 @@
-<div>
-  {{#if otherUsers}}
+<div class="main-container">
   {{#each otherUsers}}
-  <div class="card" style="width: 18rem;" id="user-{{this.userId}}">
+  <div class="card other-user d-none" style="width: 18rem;" id="user-{{this.userId}}">
     <img src={{this.profilePic}} class="card-img-top" alt="other user profile pic" />
     <div class="card-body">
       <h5 class="card-title">{{this.username}}</h5>
@@ -13,7 +12,4 @@
     </div>
   </div>
   {{/each}}
-  {{else}}
-  <h2>No hay personas nuevas por el momento para tí 🥲</h2>
-  {{/if}}
 </div>

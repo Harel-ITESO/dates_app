@@ -9,7 +9,7 @@ class MatchController {
   public async handleMatchLikeFromCurrentUser(req: UserRequest, res: Response) {
     const toUserId = Number.parseInt(req.query["toUserId"] as string) || 0;
     const thisUserId = req.user!.userId;
-    const isLike = req.headers["isLike"] === "0" ? false : true;
+    const isLike = req.query["isLike"] === "0" ? false : true;
 
     if (!toUserId)
       return res
@@ -24,10 +24,11 @@ class MatchController {
       await likeModel.findFirst({
         where: { fromUserId: thisUserId, toUserId: toUserId },
       })
-    )
+    ) {
       return res
         .status(StatusCodes.BAD_REQUEST)
         .send("This like already exists");
+    }
 
     try {
       // create the like
@@ -56,6 +57,7 @@ class MatchController {
         where: {
           fromUserId: toUserId,
           toUserId: thisUserId,
+          isLike: true,
         },
       });
 
@@ -79,6 +81,73 @@ class MatchController {
         });
         return res.status(StatusCodes.ACCEPTED).send("Like and Match created");
       }
+      return res.status(StatusCodes.CREATED).send("Like created");
+    } catch (e: any) {
+      console.error(e);
+    }
+  }
+
+  // get chats page
+  public async getMatchChatPage(req: UserRequest, res: Response) {
+    try {
+      const thisUser = req.user!;
+      const matchId = Number.parseInt(req.params["id"]);
+      if (!matchId)
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .send("Invalid id was provided");
+
+      // look for match
+      const match = await matchModel.findFirst({
+        where: {
+          matchId,
+        },
+        include: {
+          Chat: {
+            include: {
+              messages: true,
+            },
+          },
+          secondUser: {
+            select: {
+              userId: true,
+              profilePic: true,
+              username: true,
+            },
+          },
+          firstUser: {
+            select: {
+              userId: true,
+              profilePic: true,
+              username: true,
+            },
+          },
+        },
+      });
+      if (!match)
+        return res.status(StatusCodes.BAD_REQUEST).send("Match does not exist");
+
+      // if the requesting user does not belong to the match, send FORBIDDEN
+
+      if (
+        match.firstUserId !== thisUser.userId &&
+        match.secondUserId !== thisUser.userId
+      )
+        return res
+          .status(StatusCodes.FORBIDDEN)
+          .send("You are not part of this match");
+
+      // filter and select just the necessary data
+      const secondUser =
+        thisUser.userId === match.secondUserId
+          ? match.firstUser
+          : match.secondUser;
+      res.render("match_chat", {
+        layout: "",
+        secondUser,
+        thisUserId: thisUser.userId,
+        scripts: ["/socket.io/socket.io.js", "/public/js/chat.js"],
+      });
     } catch (e: any) {
       console.error(e);
     }
