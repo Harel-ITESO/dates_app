@@ -9,6 +9,8 @@ import homeRoutes from "./home.routes";
 import fileRoutes from "./file.routes";
 import onboardingRoutes from "./onboarding.routes";
 import matchRoutes from "./match.routes";
+import premiumRoutes from './payment.routes';
+
 // import { interestModel } from "../models/model-pool";
 
 const indexRoutes = Router();
@@ -50,6 +52,9 @@ indexRoutes.use("/files", authMiddleware, fileRoutes);
 
 // '/onboarding'
 indexRoutes.use("/onboarding", authMiddleware, onboardingRoutes);
+
+// payment
+indexRoutes.use('/pago-premium', premiumRoutes);
 
 // testing
 //

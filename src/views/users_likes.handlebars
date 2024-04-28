@@ -1,0 +1,10 @@
+<h1>Usuarios que te han dado like:</h1>
+{{#if likes.length}}
+  <ul>
+  {{#each likes}}
+    <li>{{this.nombre}} - <button onclick="darLikeDeRegreso('{{this.id}}')">Dar Like</button></li>
+  {{/each}}
+  </ul>
+{{else}}
+  <p>No tienes likes por el momento.</p>
+{{/if}}
