@@ -10,9 +10,9 @@ import path from "path";
 import { engine } from "express-handlebars";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import { Server } from "socket.io";
 
 import { swaggerConfig } from "./swagger.config";
+import SocketIO from "./socket/socket";
 
 // app setup
 const app = express();
@@ -41,19 +41,10 @@ app.use("/api-docs", swaggerUri.serve, swaggerUri.setup(swaggerDocs));
 // app listening
 const port = process.env["PORT"] || 3000;
 const uri = `http://localhost:${port}`;
-const socketServer = app.listen(port, () =>
+const appServer = app.listen(port, () =>
   console.log("app is running on " + uri),
 );
 
 // socket io
-const io = new Server(socketServer);
-
-// chat
-io.on("connection", (socket) => {
-  socket.on("newMessage", (data) => {
-    io.emit("newMessage", {
-      message: data.message,
-      sender: data.id,
-    });
-  });
-});
+const io = new SocketIO(appServer);
+io.setSocketAppFunctionalities();

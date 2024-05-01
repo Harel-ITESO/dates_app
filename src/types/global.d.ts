@@ -9,6 +9,12 @@ export interface UserRequest extends Request {
   }>;
 }
 
+export interface SocketMessageRequest {
+  message: string;
+  matchId: number;
+  sender: number;
+}
+
 interface InterestRelation extends Interest {
   selected: boolean;
 }

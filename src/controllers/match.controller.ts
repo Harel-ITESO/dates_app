@@ -62,7 +62,10 @@ class MatchController {
       });
 
       if (mutualLike) {
-        await matchModel.create({
+        const match = await matchModel.create({
+          select: {
+            matchId: true,
+          },
           data: {
             firstUser: {
               connect: {
@@ -79,7 +82,9 @@ class MatchController {
             },
           },
         });
-        return res.status(StatusCodes.ACCEPTED).send("Like and Match created");
+        return res
+          .status(StatusCodes.ACCEPTED)
+          .json({ matchId: match.matchId });
       }
       return res.status(StatusCodes.CREATED).send("Like created");
     } catch (e: any) {
@@ -142,9 +147,18 @@ class MatchController {
         thisUser.userId === match.secondUserId
           ? match.firstUser
           : match.secondUser;
+      // set css class name for inmediate rendering
+      const messages = match.Chat[0].messages.map((m) => {
+        const { sendAt, ...rest } = m;
+        const cssClassName =
+          m.senderId === thisUser.userId ? "this-user-msg" : "other-user-msg";
+        const msgTime = sendAt.toLocaleTimeString("es-MX");
+        return { cssClassName, sendAt: msgTime, ...rest };
+      });
       res.render("match_chat", {
         layout: "",
         secondUser,
+        messages,
         thisUserId: thisUser.userId,
         scripts: ["/socket.io/socket.io.js", "/public/js/chat.js"],
       });

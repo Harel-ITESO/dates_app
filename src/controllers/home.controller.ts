@@ -29,6 +29,7 @@ class HomeController {
           not: user.userId,
           notIn: filteredUserIds,
         },
+        isNew: false,
       },
     });
 

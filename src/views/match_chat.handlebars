@@ -12,6 +12,7 @@
   <!--Font awesome icons-->
   <script src="https://kit.fontawesome.com/e0497758cb.js" crossorigin="anonymous"></script>
   <link rel="icon" href="/public/img/favicon.png" />
+  <link rel="stylesheet" href="/public/css/chat.css" />
 </head>
 <header>
   <a class="btn btn-warning" href="/home/matches"><span class="fa-solid fa-arrow-left"></span>
@@ -26,14 +27,19 @@
         <div class="d-flex align-items-center" style="gap: 2rem;">
           <img src={{secondUser.profilePic}} alt="{{secondUser.username}}-profile-pic" width="55" height="55"
             class="rounded-circle" />
-          <div class="d-flex flex-column justify-content-center">
+          <div class="d-flex flex-column justify-content-center" id="user-id-{{secondUser.userId}}">
             <h4>{{secondUser.username}}</h4>
-            <small class="text-center">Desconectado</small>
+            <small id="otherUserStatus" class="text-center">Desconectado</small>
           </div>
         </div>
       </div>
       <div id="chatContainer" class="p-3 d-flex flex-column" name="bearer-{{thisUserId}}"
         style="flex: 1 1 auto; overflow-y: auto; height: 0px; gap: 2rem;">
+        {{#each messages}}
+        <div class="{{this.cssClassName}} rounded-pill message">{{this.textContent}}
+          <small class="message-time">{{this.sendAt}}</small>
+        </div>
+        {{/each}}
       </div>
       <div class="pt-3 px-3 border-top border-dark border-opacity-50">
         <form id="chatForm" class="w-100 d-flex align-items-center" style="gap: 1rem;">

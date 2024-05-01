@@ -15,8 +15,9 @@ function renderNextUser() {
   likeButton.on("click", function() {
     loaderShow();
     sendLikeToUser(userId, "1").then((res) => {
-      const [_responseText, status] = res;
+      const [response, status] = res;
       if (status === 202) {
+        console.log(response);
         if (confirm("Tienes un nuevo match, ¿Deseas ir a verlo?"))
           window.location.replace("/home/matches");
       }

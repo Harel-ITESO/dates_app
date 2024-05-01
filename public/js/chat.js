@@ -3,28 +3,53 @@ const chatForm = $("#chatForm");
 const chatContainer = $("#chatContainer");
 const input = chatForm.find("input");
 const thisUserId = parseInt(chatContainer.attr("name").split("-")[1]);
+const thisMatchId = parseInt(window.location.pathname.split("/")[3]);
+
 input.val("");
 
-socket.emit();
+// join the current match room
+socket.emit("joinChat", [thisUserId, thisMatchId]);
 
-socket.on("newMessage", (data) => {
-  let type = "mine";
-  console.log(data.sender, thisUserId);
-  if (data.sender !== thisUserId) type = "other";
-  renderNewMessage(type, data.message);
+// on other's user connect
+// TODO: This must work on the two ways around
+socket.on("otherUserConnection", (userId) => {
+  if (userId !== thisUserId) {
+    $("#otherUserStatus").html("En línea");
+  }
 });
 
-function createNewMessage(type, textContent) {
+socket.on("sendMessage", (data) => {
+  let type = "mine";
+  $(".sending-msg").remove();
+  if (data.senderId !== thisUserId) type = "other";
+  renderNewMessage(type, data);
+});
+
+function createNewMessage(type, data) {
   const message = document.createElement("div");
-  (message.style.display = "flex"), (message.style.minHeight = "min-content");
-  message.textContent = textContent;
-  message.classList.add("p-1", "rounded-pill");
-  if (type === "mine") message.classList.add("bg-warning", "align-self-end");
-  if (type === "other") {
-    message.classList.add("align-self-start");
-    message.style.backgroundColor = "#eee";
+
+  message.textContent = data.textContent;
+  if (type === "mine" || type === "other") {
+    const hour = document.createElement("small");
+    hour.textContent = new Date(data.sendAt).toLocaleTimeString("es-MX");
+    hour.classList.add("message-time");
+    message.appendChild(hour);
+    console.log(hour);
   }
 
+  message.classList.add("message", "rounded-pill");
+
+  switch (type) {
+    case "mine":
+      message.classList.add("this-user-msg");
+      break;
+    case "other":
+      message.classList.add("other-user-msg");
+      break;
+    case "sending":
+      message.classList.add("sending-msg");
+      break;
+  }
   return message;
 }
 
@@ -34,12 +59,14 @@ function renderNewMessage(type, textContent) {
 }
 
 chatForm.on("submit", function(e) {
-  e.preventDefault();
+  e.preventDefault("sending");
   const message = input.val();
   if (!message) return;
+  renderNewMessage("sending", { textContent: message });
   socket.emit("newMessage", {
     message,
-    id: thisUserId,
+    matchId: thisMatchId,
+    sender: thisUserId,
   });
   input.val("");
 });
