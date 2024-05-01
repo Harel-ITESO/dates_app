@@ -23,4 +23,6 @@ homeRoutes.get("/profile", homeController.getProfilePage);
 
 homeRoutes.get("/likes", homeController.getYourLikesPage);
 
+homeRoutes.get("/matches", homeController.getMatchesPage);
+
 export default homeRoutes;
