@@ -1,13 +1,21 @@
 import { Request } from "express";
-import { Prisma } from "@prisma/client";
+import { User as PrismaUser, UserInterest } from "@prisma/client";
 
-export interface UserRequest extends Request {
-  user?: Prisma.UserGetPayload<{
-    include: {
-      userInterests: true;
-    };
-  }>;
+declare global {
+  namespace Express {
+    interface User extends PrismaUser {
+      userInterests: UserInterest[];
+    }
+  }
 }
+//
+// export interface UserRequest extends Request {
+//   user?: Prisma.UserGetPayload<{
+//     include: {
+//       userInterests: true;
+//     };
+//   }>;
+// }
 
 export interface SocketMessageRequest {
   message: string;

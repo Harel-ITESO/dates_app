@@ -1,6 +1,7 @@
 // handles login routing
 import { Router } from "express";
 import loginController from "../controllers/login.controller";
+import passport from "passport";
 
 const loginRoutes = Router();
 
@@ -60,5 +61,13 @@ loginRoutes.get("/", loginController.getLoginPage);
  *         description: Usuario no encontrado o contraseña incorrecta.
  */
 loginRoutes.post("/", loginController.loginUser);
+
+// 'POST /login/google'
+loginRoutes.get(
+  "/google",
+  passport.authenticate("google", {
+    scope: ["profile"],
+  }),
+);
 
 export default loginRoutes;

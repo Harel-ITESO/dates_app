@@ -13,6 +13,7 @@ import cors from "cors";
 
 import { swaggerConfig } from "./swagger.config";
 import SocketIO from "./socket/socket";
+import "./config/passport-google";
 
 // app setup
 const app = express();

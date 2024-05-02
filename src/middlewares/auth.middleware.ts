@@ -1,11 +1,10 @@
-import { Response, NextFunction } from "express";
-import { UserRequest } from "../types/global";
+import { Request, Response, NextFunction } from "express";
 import { StatusCodes } from "../utils/status-codes";
 import { decodeToken } from "../utils/token";
 import { userModel } from "../models/model-pool";
 
 export default async function authMiddleware(
-  req: UserRequest,
+  req: Request,
   res: Response,
   next: NextFunction,
 ) {

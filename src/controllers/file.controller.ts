@@ -1,10 +1,9 @@
-import { Response } from "express";
-import { UserRequest } from "../types/global";
+import { Request, Response } from "express";
 import { userModel } from "../models/model-pool";
 import { StatusCodes } from "../utils/status-codes";
 
 class FileController {
-  public async uploadProfilePic(req: UserRequest, res: Response) {
+  public async uploadProfilePic(req: Request, res: Response) {
     const { fileLocation } = req.headers;
     req.user!.profilePic = fileLocation as string;
     const { userId } = req.user!;
