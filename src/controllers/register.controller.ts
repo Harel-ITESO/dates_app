@@ -7,7 +7,10 @@ import { hashPassword } from "../utils/crypt";
 
 class RegisterController {
   public getRegisterPage(_req: Request, res: Response) {
-    res.render("register", { layout: "forms" });
+    res.render("register", {
+      layout: "forms",
+      scripts: ["/public/js/register_request.js"],
+    });
   }
 
   public async registerUser(req: Request, res: Response) {

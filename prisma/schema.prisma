@@ -75,11 +75,13 @@ model Chat {
 }
 
 model Message {
-  messageId  Int   @id @unique @default(autoincrement())
-  chat       Chat? @relation(fields: [chatId], references: [chatId])
-  chatId     Int?
-  senderId   Int?
-  recieverId Int?
-  sender     User? @relation("senderUser", fields: [senderId], references: [userId])
-  reciever   User? @relation("recieverUser", fields: [recieverId], references: [userId])
+  messageId   Int      @id @unique @default(autoincrement())
+  chat        Chat?    @relation(fields: [chatId], references: [chatId])
+  chatId      Int?
+  senderId    Int?
+  recieverId  Int?
+  sender      User?    @relation("senderUser", fields: [senderId], references: [userId])
+  reciever    User?    @relation("recieverUser", fields: [recieverId], references: [userId])
+  sendAt      DateTime @default(now())
+  textContent String
 }

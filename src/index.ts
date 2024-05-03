@@ -12,6 +12,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 
 import { swaggerConfig } from "./swagger.config";
+import SocketIO from "./socket/socket";
 
 // app setup
 const app = express();
@@ -40,4 +41,10 @@ app.use("/api-docs", swaggerUri.serve, swaggerUri.setup(swaggerDocs));
 // app listening
 const port = process.env["PORT"] || 3000;
 const uri = `http://localhost:${port}`;
-app.listen(port, () => console.log("app is running on " + uri));
+const appServer = app.listen(port, () =>
+  console.log("app is running on " + uri),
+);
+
+// socket io
+const io = new SocketIO(appServer);
+io.setSocketAppFunctionalities();

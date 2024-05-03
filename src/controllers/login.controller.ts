@@ -7,7 +7,10 @@ import { userModel } from "../models/model-pool";
 
 class LoginController {
   public getLoginPage(_req: Request, res: Response) {
-    res.render("login", { layout: "forms" });
+    res.render("login", {
+      layout: "forms",
+      scripts: ["/socket.io/socket.io.js", "/public/js/login_request.js"],
+    });
   }
 
   public async loginUser(req: Request, res: Response) {

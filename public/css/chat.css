@@ -1,0 +1,32 @@
+.message {
+  display: flex;
+  flex-direction: column;
+  min-height: min-content;
+  text-wrap: wrap;
+  min-width: 3rem;
+  padding: 0.4rem 1rem;
+  max-width: 20rem;
+}
+
+.sending-msg,
+.this-user-msg {
+  background-color: #ffc107;
+  align-self: flex-end !important;
+  align-items: flex-end;
+}
+
+.other-user-msg {
+  align-self: flex-start !important;
+  background-color: rgb(238, 238, 238);
+}
+
+.message-time {
+  font-size: 0.5rem;
+  align-self: flex-end;
+  opacity: 50%;
+}
+
+.sending-msg {
+  background-color: rgba(255, 193, 7, 0.5) !important;
+  font-style: italic;
+}

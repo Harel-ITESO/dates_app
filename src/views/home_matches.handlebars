@@ -1,0 +1,25 @@
+<div class="w-100 d-flex flex-column align-items-center">
+  <h2 class="text-center">Estos son tus Match</h2>
+  <p>Selecciona alguno para empezar a mensajear 🤓</p>
+  <div class="d-flex flex-column" style="gap: 2rem;">
+    {{#each matches}}
+    <div class="d-flex justify-content-between p-2 rounded-pill align-items-center"
+      style="background-color: #eee; min-width: 60rem;">
+      <div class="d-flex align-items-center justify-content-center" style="gap: 1rem;">
+        <img width="50" height="50" class="rounded-circle" src={{this.profilePic}}
+          alt="{{this.username}}-profile-pic" />
+        <div>
+          <h4>{{this.username}}</h4>
+          <small class="fw-lighter" style="font-size: 0.7rem;"><strong>Ultimo
+              mensaje a las:</strong>
+            <span>{{this.lastMessageTime}}</span>
+          </small>
+        </div>
+      </div>
+      <a href="/match/chat/{{this.matchId}}" class="btn btn-warning me-2 rounded-pill"><span
+          class="fa-solid fa-paper-plane"></span>
+        Ir a mensajes</a>
+    </div>
+    {{/each}}
+  </div>
+</div>
