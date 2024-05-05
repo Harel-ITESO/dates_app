@@ -2,7 +2,6 @@
 
 import { Request, Response } from "express";
 import { userInterestModel, userModel } from "../models/model-pool";
-import { UserRequest } from "../types/global";
 import { StatusCodes } from "../utils/status-codes";
 import { Interest } from "@prisma/client";
 
@@ -16,7 +15,7 @@ class UserController {
     res.json(await userModel.findFirst({ where: { userId: id } }));
   }
 
-  public async updateCurrentUserData(req: UserRequest, res: Response) {
+  public async updateCurrentUserData(req: Request, res: Response) {
     const { data } = req.body;
     const { userId } = req.user!;
     if (Object.keys(data).find((k) => k === "userInterests"))
@@ -36,7 +35,7 @@ class UserController {
   }
 
   // updates or inserts the user interests (Since updating interests requires more work, a dedicated controller is made)
-  public async upsertUserInterests(req: UserRequest, res: Response) {
+  public async upsertUserInterests(req: Request, res: Response) {
     const thisUserId = req.user!.userId;
     const newInterests = req.body["interests"] as Interest[] | null;
     if (!newInterests)

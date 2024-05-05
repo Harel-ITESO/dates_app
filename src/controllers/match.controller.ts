@@ -1,12 +1,11 @@
-import { Response } from "express";
-import { UserRequest } from "../types/global";
+import { Request, Response } from "express";
 import { StatusCodes } from "../utils/status-codes";
 import { likeModel, matchModel } from "../models/model-pool";
 
 // this controller handles both the match and likes between users (Since this events are strongly related)
 class MatchController {
   // creates a new like, then tries to find if a mutual like exists, if so, creates a new match
-  public async handleMatchLikeFromCurrentUser(req: UserRequest, res: Response) {
+  public async handleMatchLikeFromCurrentUser(req: Request, res: Response) {
     const toUserId = Number.parseInt(req.query["toUserId"] as string) || 0;
     const thisUserId = req.user!.userId;
     const isLike = req.query["isLike"] === "0" ? false : true;
@@ -93,7 +92,7 @@ class MatchController {
   }
 
   // get chats page
-  public async getMatchChatPage(req: UserRequest, res: Response) {
+  public async getMatchChatPage(req: Request, res: Response) {
     try {
       const thisUser = req.user!;
       const matchId = Number.parseInt(req.params["id"]);
