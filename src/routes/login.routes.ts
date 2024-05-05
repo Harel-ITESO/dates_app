@@ -62,12 +62,22 @@ loginRoutes.get("/", loginController.getLoginPage);
  */
 loginRoutes.post("/", loginController.loginUser);
 
-// 'POST /login/google'
+// 'GET /login/google'
 loginRoutes.get(
   "/google",
   passport.authenticate("google", {
-    scope: ["profile"],
+    scope: ["profile", "email"],
+    session: false,
   }),
+);
+
+loginRoutes.get(
+  "/google/callback",
+  passport.authenticate("google", {
+    failureRedirect: "/login",
+    session: false,
+  }),
+  loginController.loginUserFromGoogleRedirect,
 );
 
 export default loginRoutes;

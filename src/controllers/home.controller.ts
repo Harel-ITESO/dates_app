@@ -41,7 +41,7 @@ class HomeController {
 
   public async getProfilePage(req: Request, res: Response) {
     const { password, userInterests, ...rest } = req.user!;
-    const interestIds = userInterests.map((ui) => ui.interestId);
+    const interestIds = userInterests!.map((ui) => ui.interestId);
     const allInterests = await interestModel.findMany();
     const userInterestsData = await interestModel.findMany({
       where: {
