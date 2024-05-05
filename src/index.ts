@@ -12,7 +12,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import passport from "passport";
 
-import { swaggerConfig } from "./swagger.config";
+import { swaggerConfig } from "./config/swagger.config";
 import SocketIO from "./socket/socket";
 import "./config/passport-google"; // -> passport google strategy setup
 import cookieSession from "cookie-session";
