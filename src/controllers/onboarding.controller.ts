@@ -1,9 +1,8 @@
 import { interestModel } from "../models/model-pool";
-import { UserRequest } from "../types/global";
-import { Response } from "express";
+import { Request, Response } from "express";
 
 class OnboardingController {
-  async getOnboardingPage(req: UserRequest, res: Response) {
+  async getOnboardingPage(req: Request, res: Response) {
     if (!req.user!.isNew) res.redirect("/");
     const { password, ...userData } = req.user!;
     return res.render("onboarding", {

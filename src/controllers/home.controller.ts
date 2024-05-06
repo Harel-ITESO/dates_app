@@ -4,12 +4,11 @@ import {
   matchModel,
   userModel,
 } from "../models/model-pool";
-import { UserRequest } from "../types/global";
-import { Response } from "express";
+import { Request, Response } from "express";
 import { StatusCodes } from "../utils/status-codes";
 
 class HomeController {
-  public async getHomePage(req: UserRequest, res: Response) {
+  public async getHomePage(req: Request, res: Response) {
     const { password, ...user } = req.user!;
     // filter which users not to show if they were already liked/disliked
     const filteredUserIds = (
@@ -40,9 +39,9 @@ class HomeController {
     });
   }
 
-  public async getProfilePage(req: UserRequest, res: Response) {
+  public async getProfilePage(req: Request, res: Response) {
     const { password, userInterests, ...rest } = req.user!;
-    const interestIds = userInterests.map((ui) => ui.interestId);
+    const interestIds = userInterests!.map((ui) => ui.interestId);
     const allInterests = await interestModel.findMany();
     const userInterestsData = await interestModel.findMany({
       where: {
@@ -57,7 +56,7 @@ class HomeController {
     });
   }
 
-  public async getYourLikesPage(req: UserRequest, res: Response) {
+  public async getYourLikesPage(req: Request, res: Response) {
     const { password, ...rest } = req.user!;
     const opts = { user: rest.hasSuscription ? rest : null, subtitle: "Likes" };
     if (!rest.hasSuscription)
@@ -68,7 +67,7 @@ class HomeController {
     res.render("likespage", opts);
   }
 
-  public async getMatchesPage(req: UserRequest, res: Response) {
+  public async getMatchesPage(req: Request, res: Response) {
     const thisUser = req.user!;
     const userMatches = await matchModel.findMany({
       where: {
@@ -134,7 +133,7 @@ class HomeController {
     });
   }
 
-  public logout(_req: UserRequest, res: Response) {
+  public logout(_req: Request, res: Response) {
     res
       .clearCookie("authorization")
       .status(StatusCodes.ACCEPTED)

@@ -34,6 +34,16 @@ class LoginController {
       .status(StatusCodes.OK)
       .json(token);
   }
+
+  // redirection on fail is managed by the google strategy
+  public async loginUserFromGoogleRedirect(req: Request, res: Response) {
+    const user = req.user;
+    const token = generateToken(user!.email, user!.username);
+    res
+      .cookie("authorization", token, { httpOnly: true })
+      .status(StatusCodes.OK)
+      .redirect("/home");
+  }
 }
 
 export default new LoginController();

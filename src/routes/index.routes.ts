@@ -9,8 +9,6 @@ import homeRoutes from "./home.routes";
 import fileRoutes from "./file.routes";
 import onboardingRoutes from "./onboarding.routes";
 import matchRoutes from "./match.routes";
-import premiumRoutes from './payment.routes';
-
 // import { interestModel } from "../models/model-pool";
 
 const indexRoutes = Router();
@@ -58,7 +56,6 @@ indexRoutes.use('/pago-premium', premiumRoutes);
 
 // testing
 //
-//
 // indexRoutes.post("/interests", async (req, res) => {
 //   const { interests } = req.body;
 //   interests.forEach(async (e: { interestDescription: string }) => {
@@ -72,8 +69,6 @@ indexRoutes.use('/pago-premium', premiumRoutes);
 // indexRoutes.get("/interests", async (_req, res) => {
 //   res.json(await interestModel.findMany({}));
 // });
-//
-//
 
 // '/match'
 indexRoutes.use("/match", authMiddleware, matchRoutes);

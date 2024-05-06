@@ -17,7 +17,6 @@ model User {
   hasSuscription Boolean @default(false)
   isNew          Boolean @default(true)
 
-  googleSession    GoogleSession?
   userInterests    UserInterest[]
   fromLike         Like[]         @relation("fromUser")
   toLike           Like[]         @relation("toUser")
@@ -25,13 +24,6 @@ model User {
   secondUser       Match[]        @relation("secondUser")
   senderMessages   Message[]      @relation("senderUser")
   recieverMessages Message[]      @relation("recieverUser")
-}
-
-model GoogleSession {
-  sessionId    Int    @id @default(autoincrement())
-  sessionToken String
-  user         User   @relation(fields: [userId], references: [userId])
-  userId       Int    @unique
 }
 
 model Interest {
