@@ -27,14 +27,13 @@ socket.on("sendMessage", (data) => {
 
 function createNewMessage(type, data) {
   const message = document.createElement("div");
-
+  message.id = data.messageId;
   message.textContent = data.textContent;
   if (type === "mine" || type === "other") {
     const hour = document.createElement("small");
     hour.textContent = new Date(data.sendAt).toLocaleTimeString("es-MX");
     hour.classList.add("message-time");
     message.appendChild(hour);
-    console.log(hour);
   }
 
   message.classList.add("message", "rounded-pill");
@@ -56,6 +55,7 @@ function createNewMessage(type, data) {
 function renderNewMessage(type, textContent) {
   const message = createNewMessage(type, textContent);
   chatContainer.append(message);
+  $(`#${message.id}`)[0].scrollIntoView();
 }
 
 chatForm.on("submit", function(e) {
