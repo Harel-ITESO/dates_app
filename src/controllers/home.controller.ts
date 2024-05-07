@@ -55,6 +55,59 @@ class HomeController {
       allInterests,
     });
   }
+  public async getProfileById(req: Request, res: Response) {
+    const loggedInUserId = req.user!.userId; // ID del usuario loggeado
+    const requestedUserId = req.params.id; // ID del usuario solicitado en la URL
+  
+    // Si el ID solicitado es el mismo que el del usuario loggeado, redirecciona a su propio perfil
+    if (loggedInUserId === parseInt(requestedUserId)) {
+      return res.redirect("/profile");
+    }    
+  
+    // Verificar si el usuario solicitado existe en la base de datos
+    const requestedUser = await userModel.findUnique({
+      where: {
+        userId: parseInt(requestedUserId),
+      },
+    });
+  
+  
+    // Si el usuario solicitado no existe, renderiza un error 404
+    if (!requestedUser) {
+      return res.status(StatusCodes.NOT_FOUND).send("Usuario no encontrado");
+    }
+  
+    // Renderiza la información del usuario solicitado
+    res.render("profile", {
+      user: requestedUser,
+      subtitle: "Perfil de Usuario",
+    });
+  }
+
+  public async updateUserInterests(req: Request, res: Response) {
+    const userId = req.user!.userId; // Obtener el ID de usuario actual
+    const { interests } = req.body; // Obtener los intereses seleccionados del cuerpo de la solicitud
+
+    try {
+      // Actualizar los intereses del usuario en la base de datos
+      await userModel.update({
+        where: { userId },
+        data: {
+          // Actualizar los intereses del usuario con los nuevos intereses seleccionados
+          // Este es solo un ejemplo, asegúrate de que el modelo y los campos coincidan con tu aplicación
+          userInterests: interests, // Asigna los nuevos intereses al campo de intereses del usuario
+        },
+      });
+
+      res.status(StatusCodes.OK).send("Intereses actualizados correctamente");
+    } catch (error) {
+      console.error("Error al actualizar intereses del usuario:", error);
+      res.status(500).send("Error al actualizar intereses del usuario");
+
+    }
+  }
+
+  
 
   public async getYourLikesPage(req: Request, res: Response) {
     const { password, ...rest } = req.user!;

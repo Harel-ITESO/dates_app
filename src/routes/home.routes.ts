@@ -21,6 +21,8 @@ homeRoutes.get("/", homeController.getHomePage);
 
 homeRoutes.get("/profile", homeController.getProfilePage);
 
+homeRoutes.get("/profile/:id", homeController.updateUserInterests);
+
 homeRoutes.get("/likes", homeController.getYourLikesPage);
 
 homeRoutes.get("/matches", homeController.getMatchesPage);
