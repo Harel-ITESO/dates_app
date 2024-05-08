@@ -7,7 +7,10 @@ import { userModel } from "../models/model-pool";
 
 class LoginController {
   public getLoginPage(_req: Request, res: Response) {
-    res.render("login", { layout: "forms" });
+    res.render("login", {
+      layout: "forms",
+      scripts: ["/socket.io/socket.io.js", "/public/js/login_request.js"],
+    });
   }
 
   public async loginUser(req: Request, res: Response) {
@@ -21,14 +24,25 @@ class LoginController {
         email: email as string,
       },
     });
-    if (!user || !comparePassword(password, user.password)) {
+    if (!user || !comparePassword(password, user.password!)) {
       res.status(StatusCodes.NOT_FOUND).send("User was not found");
       return;
     }
-    const token = generateToken(user.email, user.password);
+    const token = generateToken(user.email, user.password!);
     res
       .cookie("authorization", token, { httpOnly: true })
-      .sendStatus(StatusCodes.OK);
+      .status(StatusCodes.OK)
+      .json(token);
+  }
+
+  // redirection on fail is managed by the google strategy
+  public async loginUserFromGoogleRedirect(req: Request, res: Response) {
+    const user = req.user;
+    const token = generateToken(user!.email, user!.username);
+    res
+      .cookie("authorization", token, { httpOnly: true })
+      .status(StatusCodes.OK)
+      .redirect("/home");
   }
 }
 

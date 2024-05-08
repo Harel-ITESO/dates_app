@@ -1,65 +1,15 @@
-<div class="d-flex align-items-center flex-column mt-5">
-  <img
-    src={{user.profilePic}}
-    alt="user profile"
-    class="rounded-circle"
-    height="120"
-    width="120"
-  />
-  <h1 class="text-center mt-5">{{user.username}}</h1>
-  <button
-    class="btn btn-secondary"
-    data-bs-toggle="modal"
-    data-bs-target="#uploadModal"
-  >+ Añadir foto de perfil
-    <span class="fa-regular fa-image"></span></button>
-
-  <!--image upload modal-->
-  <div
-    class="modal fade"
-    id="uploadModal"
-    tabindex="-1"
-    aria-hidden="true"
-    data-backdrop="false"
-  >
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Subir imágen de
-            perfil</h1>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="modal-body">
-          <form id="uploadForm">
-            <div class="d-flex">
-              <input
-                class="form-control"
-                type="file"
-                id="formFile"
-                name="profile_pic"
-              />
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >Close</button>
-          <button
-            id="uploadImageButton"
-            type="button"
-            class="btn btn-primary"
-            data-bs-dismiss="modal"
-          >Save changes</button>
-        </div>
+<div class="main-container">
+  {{#each otherUsers}}
+  <div class="card other-user d-none" style="width: 18rem;" id="user-{{this.userId}}">
+    <img src={{this.profilePic}} class="card-img-top" alt="other user profile pic" />
+    <div class="card-body">
+      <h5 class="card-title">{{this.username}}</h5>
+      <p class="card-text">{{this.description}}</p>
+      <div class="d-flex justify-content-between">
+        <button class="btn btn-danger dislike"><span class="fa-solid fa-xmark"></span></button>
+        <button class="btn btn-success rounded-circle like"><span class="fa-solid fa-check"></span></button>
       </div>
     </div>
   </div>
+  {{/each}}
 </div>

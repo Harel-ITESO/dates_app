@@ -1,7 +1,7 @@
 import multer from "multer";
 import multerS3 from "multer-s3";
 import { S3Client } from "@aws-sdk/client-s3";
-import { UserRequest } from "../types/express";
+import { Request } from "express";
 
 const region = process.env["S3_REGION"] || "";
 const secretAccessKey = process.env["S3_SECRET_KEY"] || "";
@@ -17,11 +17,11 @@ const s3 = new S3Client({
 });
 
 function generateKey(
-  req: UserRequest,
+  req: Request,
   _file: Express.Multer.File,
   cb: (error: any, key?: string) => void,
 ) {
-  const fileName = `${req.user!.userId}-profile_pic`;
+  const fileName = `user-${req.user!.userId}-profile_pic`;
   const imageUrl = `https://${bucketName}.s3.${region}.amazonaws.com/${fileName}`;
   req.headers["fileLocation"] = imageUrl;
   cb(null, fileName);

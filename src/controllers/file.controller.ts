@@ -1,21 +1,27 @@
-import { Response } from "express";
-import { UserRequest } from "../types/express";
+import { Request, Response } from "express";
 import { userModel } from "../models/model-pool";
 import { StatusCodes } from "../utils/status-codes";
 
 class FileController {
-  public async uploadProfilePic(req: UserRequest, res: Response) {
+  public async uploadProfilePic(req: Request, res: Response) {
     const { fileLocation } = req.headers;
     req.user!.profilePic = fileLocation as string;
-    const { userId, ...data } = req.user!;
+    const { userId } = req.user!;
     try {
-      const { userId } = await userModel.update({
-        where: { userId: req.user!.userId },
-        data,
+      const user = await userModel.update({
+        select: {
+          userId: true,
+        },
+        where: {
+          userId: userId,
+        },
+        data: {
+          profilePic: fileLocation as string,
+        },
       });
       res
         .status(StatusCodes.ACCEPTED)
-        .send("Profile pic uploaded successfully to user " + userId);
+        .send("Profile pic uploaded successfully to user " + user.userId);
     } catch (e: any) {
       console.error(e.message);
     }

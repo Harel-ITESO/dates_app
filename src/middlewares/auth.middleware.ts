@@ -1,11 +1,10 @@
-import { Response, NextFunction } from "express";
-import { UserRequest } from "../types/express";
+import { Request, Response, NextFunction } from "express";
 import { StatusCodes } from "../utils/status-codes";
 import { decodeToken } from "../utils/token";
 import { userModel } from "../models/model-pool";
 
 export default async function authMiddleware(
-  req: UserRequest,
+  req: Request,
   res: Response,
   next: NextFunction,
 ) {
@@ -18,6 +17,9 @@ export default async function authMiddleware(
     const decodedUserData = decodeToken(token);
     const { email, username } = decodedUserData;
     const userData = await userModel.findFirst({
+      include: {
+        userInterests: true,
+      },
       where: { email, username },
     });
     if (!userData) {

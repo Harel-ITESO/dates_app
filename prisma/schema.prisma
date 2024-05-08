@@ -1,22 +1,79 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "mongodb"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  userId     String  @id @default(auto()) @map("_id") @db.ObjectId
-  username   String
-  email      String  @unique
-  password   String
-  profilePic String?
+  userId         Int     @id @unique @default(autoincrement())
+  username       String
+  email          String  @unique
+  password       String?
+  description    String?
+  profilePic     String?
+  hasSuscription Boolean @default(false)
+  isNew          Boolean @default(true)
+
+  userInterests    UserInterest[]
+  fromLike         Like[]         @relation("fromUser")
+  toLike           Like[]         @relation("toUser")
+  firstUser        Match[]        @relation("firstUser")
+  secondUser       Match[]        @relation("secondUser")
+  senderMessages   Message[]      @relation("senderUser")
+  recieverMessages Message[]      @relation("recieverUser")
+}
+
+model Interest {
+  interestId          Int            @unique @default(autoincrement())
+  interestDescription String
+  UserInterest        UserInterest[]
+}
+
+model UserInterest {
+  interest   Interest @relation(fields: [interestId], references: [interestId])
+  user       User     @relation(fields: [userId], references: [userId])
+  interestId Int
+  userId     Int
+
+  @@id([interestId, userId])
+}
+
+model Like {
+  likeId     Int     @id @default(autoincrement())
+  isLike     Boolean @default(true) // like / dislike
+  fromUserId Int
+  toUserId   Int
+  fromUser   User    @relation("fromUser", fields: [fromUserId], references: [userId])
+  toUser     User    @relation("toUser", fields: [toUserId], references: [userId])
+}
+
+model Match {
+  matchId      Int    @id @unique @default(autoincrement())
+  firstUserId  Int
+  secondUserId Int
+  firstUser    User   @relation("firstUser", fields: [firstUserId], references: [userId])
+  secondUser   User   @relation("secondUser", fields: [secondUserId], references: [userId])
+  Chat         Chat[]
+}
+
+model Chat {
+  chatId        Int       @id @unique @default(autoincrement())
+  parentMatchId Int
+  parentMatch   Match     @relation(fields: [parentMatchId], references: [matchId])
+  messages      Message[]
+}
+
+model Message {
+  messageId   Int      @id @unique @default(autoincrement())
+  chat        Chat?    @relation(fields: [chatId], references: [chatId])
+  chatId      Int?
+  senderId    Int?
+  recieverId  Int?
+  sender      User?    @relation("senderUser", fields: [senderId], references: [userId])
+  reciever    User?    @relation("recieverUser", fields: [recieverId], references: [userId])
+  sendAt      DateTime @default(now())
+  textContent String
 }
