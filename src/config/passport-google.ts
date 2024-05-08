@@ -4,7 +4,7 @@ import { userModel } from "../models/model-pool";
 
 const clientID = process.env["GOOGLE_CLIENT_ID"] || "";
 const clientSecret = process.env["GOOGLE_CLIENT_SECRET"] || "";
-const callbackURL = "/login/google/callback";
+const callbackURL = process.env["GOOGLE_CALLBACK"] || "";
 
 passport.use(
   new GoogleStrategy(
