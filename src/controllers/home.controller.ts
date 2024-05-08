@@ -33,6 +33,7 @@ class HomeController {
     });
 
     res.render("home", {
+      user,
       otherUsers,
       scripts: ["/public/js/home_main.js"],
       subtitle: "Home",
@@ -56,19 +57,95 @@ class HomeController {
     });
   }
 
+  public async getOtherProfilePage(req: Request, res: Response) {
+    try {
+      const { password, ...rest } = req.user!;
+      const otherUserId = parseInt(req.params["id"]);
+      if (!otherUserId)
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .send("other user id must be provided correctly");
+
+      if (otherUserId === req.user!.userId)
+        return res.redirect("/home/profile");
+
+      const otherUser = await userModel.findFirst({
+        where: {
+          userId: otherUserId,
+        },
+      });
+
+      if (!otherUser)
+        return res
+          .status(StatusCodes.NOT_FOUND)
+          .render("profile_404", { user: rest });
+
+      return res.render("other_profile", {
+        subtitle: `${otherUser.username}`,
+        otherUser,
+        user: rest,
+      });
+    } catch (e: any) {
+      res.status(StatusCodes.BAD_REQUEST).send();
+    }
+  }
+
   public async getYourLikesPage(req: Request, res: Response) {
     const { password, ...rest } = req.user!;
-    const opts = { user: rest.hasSuscription ? rest : null, subtitle: "Likes" };
     if (!rest.hasSuscription)
       return res
         .status(StatusCodes.FORBIDDEN)
-        .render("forbidden_likespage", opts);
-    // for the moment, this is the placeholder
-    res.render("likespage", opts);
+        .render("forbidden_likespage", { user: rest, subtitle: "Likes" });
+
+    const invalidUserIds = (
+      await matchModel.findMany({
+        where: {
+          OR: [
+            {
+              firstUserId: rest.userId,
+            },
+            {
+              secondUserId: rest.userId,
+            },
+          ],
+        },
+      })
+    ).map((m) => {
+      if (m.firstUserId === rest.userId) return m.secondUserId;
+      return m.firstUserId;
+    });
+
+    const otherUsers = (
+      await likeModel.findMany({
+        where: {
+          toUserId: rest.userId,
+          fromUserId: {
+            notIn: invalidUserIds,
+          },
+        },
+        include: {
+          fromUser: true,
+        },
+      })
+    ).map((l) => {
+      return {
+        userId: l.fromUser.userId,
+        profilePic: l.fromUser.profilePic,
+        username: l.fromUser.username,
+      };
+    });
+
+    res.render("likespage", {
+      user: rest,
+      otherUsers,
+      subtitle: "Likes",
+      scripts: ["/public/js/likespage.js"],
+    });
   }
 
   public async getMatchesPage(req: Request, res: Response) {
     const thisUser = req.user!;
+    const { password, ...rest } = thisUser;
     const userMatches = await matchModel.findMany({
       where: {
         OR: [
@@ -128,6 +205,7 @@ class HomeController {
       };
     });
     res.render("home_matches", {
+      user: rest,
       matches,
       subtitle: "Matches",
     });
