@@ -9,6 +9,7 @@ import homeRoutes from "./home.routes";
 import fileRoutes from "./file.routes";
 import onboardingRoutes from "./onboarding.routes";
 import matchRoutes from "./match.routes";
+import paymentRoutes from "./payment.routes";
 
 const indexRoutes = Router();
 
@@ -68,5 +69,8 @@ indexRoutes.use("/onboarding", authMiddleware, onboardingRoutes);
 
 // '/match'
 indexRoutes.use("/match", authMiddleware, matchRoutes);
+
+// '/payments'
+indexRoutes.use("/payment", authMiddleware, paymentRoutes);
 
 export default indexRoutes;

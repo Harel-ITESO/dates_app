@@ -1,3 +1,22 @@
 <div>
-  <h1>Tus Likes</h1>
+  <h1>Likes que te han dado</h1>
+  <div class="d-flex flex-column">
+    {{#each otherUsers}}
+    <div id="user-{{this.userId}}"
+      class="likes-page-user d-flex justify-content-between p-2 rounded-pill align-items-center"
+      style="background-color: #eee; min-width: 60rem;">
+      <div class="d-flex align-items-center justify-content-center" style="gap: 1rem;">
+        <img width="50" height="50" class="rounded-circle" src={{this.profilePic}}
+          alt="{{this.username}}-profile-pic" />
+        <div>
+          <h4>{{this.username}}</h4>
+        </div>
+      </div>
+      <div>
+        <button class="btn btn-danger dislike"><span class="fa-solid fa-xmark"></span></button>
+        <button class="btn btn-success rounded-circle like"><span class="fa-solid fa-check"></span></button>
+      </div>
+    </div>
+    {{/each}}
+  </div>
 </div>
