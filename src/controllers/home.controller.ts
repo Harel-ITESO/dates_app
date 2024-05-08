@@ -64,7 +64,7 @@ class HomeController {
         .status(StatusCodes.FORBIDDEN)
         .render("forbidden_likespage", opts);
     // for the moment, this is the placeholder
-    res.render("likespage", opts);
+    res.render("premium", opts);
   }
 
   public async getMatchesPage(req: Request, res: Response) {

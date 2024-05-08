@@ -21,7 +21,7 @@ homeRoutes.get("/", homeController.getHomePage);
 
 homeRoutes.get("/profile", homeController.getProfilePage);
 
-homeRoutes.get("/likes", homeController.getYourLikesPage);
+homeRoutes.get("/premium", homeController.getYourLikesPage);
 
 homeRoutes.get("/matches", homeController.getMatchesPage);
 

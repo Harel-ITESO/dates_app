@@ -23,6 +23,3 @@ export interface SocketMessageRequest {
   sender: number;
 }
 
-interface InterestRelation extends Interest {
-  selected: boolean;
-}
