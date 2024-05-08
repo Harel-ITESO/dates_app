@@ -34,6 +34,7 @@ class HomeController {
 
     res.render("home", {
       otherUsers,
+      user,
       scripts: ["/public/js/home_main.js"],
       subtitle: "Home",
     });
@@ -58,13 +59,15 @@ class HomeController {
 
   public async getYourLikesPage(req: Request, res: Response) {
     const { password, ...rest } = req.user!;
-    const opts = { user: rest.hasSuscription ? rest : null, subtitle: "Likes" };
     if (!rest.hasSuscription)
-      return res
-        .status(StatusCodes.FORBIDDEN)
-        .render("forbidden_likespage", opts);
-    // for the moment, this is the placeholder
-    res.render("premium", opts);
+      return res.status(StatusCodes.FORBIDDEN).render("forbidden_likespage", {
+        subtitle: "Likes",
+      });
+    res.render("premium", {
+      subtitle: "Likes",
+      user: rest,
+      scripts: ["/public/premium_match.js"],
+    });
   }
 
   public async getMatchesPage(req: Request, res: Response) {
@@ -130,6 +133,7 @@ class HomeController {
     res.render("home_matches", {
       matches,
       subtitle: "Matches",
+      user: thisUser,
     });
   }
 
